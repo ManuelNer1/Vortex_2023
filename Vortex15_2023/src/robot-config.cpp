@@ -3,7 +3,7 @@ using namespace vex;
 using signature = vision::signature;
 using code = vision::code;
 
-/************ Constants ****************/
+/*-------------------------------- Constants --------------------------------*/
 int    DEADBAND       = 5;           //pct
 double WHEEL_TRAVEL   = 84*3.14159;  //mm
 double TRACK_WIDTH    = 290;         //mm
@@ -14,7 +14,7 @@ double WAIT_UNTIL_LAUNCH = 3100;     //ms
 double FLYWHEEL_VEL   = 95;          //pct
 double INTAKE_VEL     = 70;          //pcd 
 
-/********* Devices definition **********/
+/*---------------------------- Devices definition ---------------------------*/
 // Brain screen
 brain Brain;
 
@@ -43,11 +43,11 @@ pneumatics Indexer = pneumatics(Brain.ThreeWirePort.A);
 controller Controller1 = controller(primary);
 bool RemoteControlCodeEnabled = true;
 
-/************* Control variables ***************/
+/*---------------------------- Control variables ----------------------------*/
 bool DrivetrainLNeedsToBeStopped_Controller1 = true;
 bool DrivetrainRNeedsToBeStopped_Controller1 = true;
 
-/************   Atomic functions   ************/
+/*----------------------------- Atomic functions ----------------------------*/
 /* TODO: Split main user controller code into smaller functions
 void compute_chassis_vel(void){}
 void drivetrain_run(void){}
@@ -57,12 +57,9 @@ void expansion_run(void){}
 */
 
 // Main user controller code
-int rc_auto_loop_function_Controller1()
-{
-  while(true)
-  {
-    if(RemoteControlCodeEnabled)
-    {
+int rc_auto_loop_function_Controller1(){
+  while(true){
+    if(RemoteControlCodeEnabled){
       //Drivetrain
       int drivetrainLeftSideSpeed  = Controller1.Axis1.position() + Controller1.Axis3.position();
       int drivetrainRightSideSpeed = Controller1.Axis1.position() - Controller1.Axis3.position();
@@ -71,7 +68,8 @@ int rc_auto_loop_function_Controller1()
           LeftMotors.stop();  
           DrivetrainLNeedsToBeStopped_Controller1 = false;  
         }
-      } else{
+      } 
+      else{
         DrivetrainLNeedsToBeStopped_Controller1 = true;
       }
       if (drivetrainRightSideSpeed < DEADBAND && drivetrainRightSideSpeed > -DEADBAND){
@@ -79,7 +77,8 @@ int rc_auto_loop_function_Controller1()
           RightMotors.stop();  
           DrivetrainRNeedsToBeStopped_Controller1 = false;  
         }
-      } else{
+      } 
+      else{
         DrivetrainRNeedsToBeStopped_Controller1 = true;
       }
       if (DrivetrainLNeedsToBeStopped_Controller1){

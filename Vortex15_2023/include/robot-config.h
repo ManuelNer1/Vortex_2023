@@ -1,6 +1,6 @@
 using namespace vex;
 
-/*****************  VEXcode devices *******************/
+/*----------------------------- VEXcode devices -----------------------------*/
 //Brain
 extern brain Brain;
 
